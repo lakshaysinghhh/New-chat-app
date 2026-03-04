@@ -1,9 +1,11 @@
 const HomePage = () => {
   return (
-    <div className="h-screen flex items-center justify-center bg-base-200">
-      <h1 className="text-3xl font-bold">Home Page</h1>
+    <div data-theme="bumblebee" className="min-h-screen bg-base-200 flex items-center justify-center">
+      <button className="btn btn-primary">Dark Mode</button>
+      <h1>hey2</h1>
     </div>
   );
 };
 
 export default HomePage;
+
