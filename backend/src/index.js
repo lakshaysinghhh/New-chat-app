@@ -26,7 +26,7 @@ app.use(
 
 // Routes
 app.use("/api/auth", authRoutes)
-app.use("/api/message", messageRoutes)
+app.use("/api/messages", messageRoutes)
 
 const PORT = process.env.PORT || 5000
 

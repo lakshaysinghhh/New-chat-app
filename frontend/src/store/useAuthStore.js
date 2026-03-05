@@ -12,18 +12,19 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true, // 👈 comma important
 
   // ================= CHECK AUTH =================
-  checkAuth: async () => {
-    try {
-      const res = await axiosInstance.get("/auth/check");
-      set({ authUser: res.data });
-    } catch(error) {
-      set({ authUser: null });
-      console.log(error);
-      
-    } finally {
-      set({ isCheckingAuth: false });
-    }
-  },
+checkAuth: async () => {
+  try {
+    const res = await axiosInstance.get("/auth/check");
+
+    set({ authUser: res.data.user });
+
+  } catch (error) {
+    set({ authUser: null });
+    console.log(error);
+  } finally {
+    set({ isCheckingAuth: false });
+  }
+},
 
   // ================= SIGNUP =================
    signup: async (data) => {
