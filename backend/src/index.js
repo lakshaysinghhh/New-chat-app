@@ -8,10 +8,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { app, server } from "./lib/socket.js";
 import path from "path";
+import fs from "fs";
 
 dotenv.config();
 
+// When started with `npm run start --prefix backend`, the working directory is the `backend` folder.
+// Use that as the base to locate the built frontend in `../frontend/dist`.
 const __dirname = path.resolve();
+const frontendPath = path.join(__dirname, "../frontend/dist");
 
 // Body parser
 app.use(express.json({ limit: "10mb" }));
@@ -35,13 +39,20 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// Serve frontend in production
-if (process.env.NODE_ENV === "production") {
-const frontendPath = path.join(__dirname, "frontend/dist");
-
+// Serve frontend if the build output exists (e.g. on Render after `vite build`)
+if (fs.existsSync(frontendPath)) {
   app.use(express.static(frontendPath));
 
-  app.get("*", (req, res) => {
+  // Fallback for any non-API GET request: send the React index.html
+  app.use((req, res, next) => {
+    if (
+      req.method !== "GET" ||
+      req.path.startsWith("/api") ||
+      !req.headers.accept?.includes("text/html")
+    ) {
+      return next();
+    }
+
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 }
