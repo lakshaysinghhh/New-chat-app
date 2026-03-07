@@ -1,8 +1,9 @@
 import express from "express";
-import { 
-    sendMessage, 
-    getMessages, 
-    getUsersForSidebar 
+import {
+  sendMessage,
+  getMessages,
+  getUsersForSidebar,
+  deleteChatForUser,
 } from "../controllers/message.controller.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
 
@@ -17,8 +18,7 @@ router.get("/:id", protectRoute, getMessages);
 // 📌 Send message
 router.post("/send/:id", protectRoute, sendMessage);
 
-
-// 📌 Send message
-router.post("/send/:id", protectRoute, sendMessage);
+// 📌 Delete chat for current user only
+router.delete("/chat/:id", protectRoute, deleteChatForUser);
 
 export default router;

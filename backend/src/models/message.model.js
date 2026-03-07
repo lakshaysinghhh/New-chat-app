@@ -20,6 +20,12 @@ const messageSchema = new mongoose.Schema(
       type: String, // Cloudinary URL
       default: "",
     },
+    deletedFor: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true, // createdAt & updatedAt auto add karega

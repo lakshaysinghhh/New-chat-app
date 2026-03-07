@@ -2,6 +2,7 @@ import { generateToken } from '../lib/utils.js'
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
 import cloudinary from '../lib/cloudinary.js'
+import Message from '../models/message.model.js'
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body
   try {
@@ -100,6 +101,34 @@ export const logout = (req, res) => {
     });
   } catch (error) {
     console.log("Logout Error:", error.message);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+}
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    await Message.deleteMany({
+      $or: [{ senderId: userId }, { receiverId: userId }],
+    });
+
+    await User.findByIdAndDelete(userId);
+
+    res.cookie("jwt", "", {
+      maxAge: 0,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+    });
+
+    res.status(200).json({
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    console.log("Delete Account Error:", error.message);
     res.status(500).json({
       message: "Internal Server Error",
     });
