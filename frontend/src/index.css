@@ -17,3 +17,8 @@
 .chat-input-wrapper {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
 }
+
+/* Ensure messages area scrolls on mobile (iOS) */
+.chat-messages-scroll {
+  -webkit-overflow-scrolling: touch;
+}

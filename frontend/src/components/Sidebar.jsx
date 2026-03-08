@@ -4,7 +4,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users, Trash2, X } from "lucide-react";
 
-const Sidebar = ({ onSelectUser, onCloseMobile, isMobileOverlay }) => {
+const Sidebar = ({ onSelectUser, onCloseMobile, onBackToSidebar, isMobileOverlay }) => {
   const {
     getUsers,
     users = [],
@@ -49,8 +49,8 @@ const Sidebar = ({ onSelectUser, onCloseMobile, isMobileOverlay }) => {
             <button
               type="button"
               className="btn btn-ghost btn-sm btn-square md:hidden"
-              onClick={onCloseMobile}
-              aria-label="Close sidebar"
+              onClick={onBackToSidebar || onCloseMobile}
+              aria-label="Back to contacts"
             >
               <X className="size-5" />
             </button>

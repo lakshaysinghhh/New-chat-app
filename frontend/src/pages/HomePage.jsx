@@ -13,45 +13,68 @@ const HomePage = () => {
     setMobileSidebarOpen(false);
   };
 
+  const handleBackToSidebar = () => {
+    useChatStore.getState().setSelectedUser(null);
+    setMobileSidebarOpen(false);
+  };
+
+  const handleBack = () => {
+    setMobileSidebarOpen(true);
+  };
+
   return (
     <div className="min-h-[100dvh] bg-base-200 pt-16">
       <div className="flex justify-center px-1 sm:px-4 h-[calc(100dvh-4rem)]">
-        <div className="bg-base-100 rounded-lg shadow-lg w-full max-w-6xl h-full overflow-hidden flex flex-col md:flex-row">
+        <div className="bg-base-100 rounded-lg shadow-lg w-full max-w-6xl h-full min-h-0 overflow-hidden flex flex-col md:flex-row relative">
 
-          {/* Sidebar: full width when no chat, slide-over overlay on mobile when in chat */}
+          {/* Sidebar: full view when no chat; slides in on mobile when navigating back */}
           <div
             className={`
-              flex-shrink-0
-              ${selectedUser ? "hidden md:flex md:w-72" : "flex w-full md:w-72"}
-              md:relative
-              ${selectedUser && mobileSidebarOpen ? "flex fixed inset-0 z-40 md:flex md:static" : ""}
+              flex-shrink-0 w-full md:w-72 h-full flex flex-col
+              transition-transform duration-300 ease-out
+              ${selectedUser ? "hidden md:flex" : "flex"}
+              ${!selectedUser ? "animate-[slideIn_0.3s_ease-out]" : ""}
             `}
           >
-            {/* Mobile backdrop when sidebar overlay is open */}
-            {(mobileSidebarOpen && selectedUser) && (
-              <div
-                className="absolute inset-0 bg-black/40 md:hidden z-30"
-                onClick={() => setMobileSidebarOpen(false)}
-                aria-hidden="true"
-              />
-            )}
-            <div
-              className={`
-                w-full md:w-72 h-full flex flex-col
-                ${selectedUser && mobileSidebarOpen ? "absolute left-0 top-0 bottom-0 w-[min(85vw,320px)] z-40 shadow-xl animate-[slideIn_0.25s_ease-out] md:relative md:shadow-none md:animate-none" : ""}
-              `}
-            >
-              <Sidebar
-                onSelectUser={selectUserAndCloseSidebar}
-                onCloseMobile={() => setMobileSidebarOpen(false)}
-                isMobileOverlay={!!selectedUser}
-              />
-            </div>
+            <Sidebar
+              onSelectUser={selectUserAndCloseSidebar}
+              isMobileOverlay={false}
+            />
           </div>
 
-          {/* Chat area: full width on mobile when chat selected */}
+          {/* Mobile sidebar overlay: slides in from left when back is pressed */}
+          {selectedUser && (
+            <div
+              className="fixed inset-0 z-40 md:hidden"
+              style={{ pointerEvents: mobileSidebarOpen ? "auto" : "none" }}
+              aria-hidden={!mobileSidebarOpen}
+            >
+              <div
+                className="absolute inset-0 top-16 bg-black/40 transition-opacity duration-300"
+                onClick={() => setMobileSidebarOpen(false)}
+              />
+              <div
+                className={`
+                  absolute left-0 top-16 bottom-0 w-[min(85vw,320px)] max-w-[320px]
+                  bg-base-100 border-r border-base-300 shadow-xl
+                  flex flex-col
+                  transform transition-transform duration-300 ease-out will-change-transform
+                  ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                `}
+              >
+                <Sidebar
+                  onSelectUser={selectUserAndCloseSidebar}
+                  onCloseMobile={() => setMobileSidebarOpen(false)}
+                  onBackToSidebar={handleBackToSidebar}
+                  isMobileOverlay={true}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Chat area - min-h-0 critical for scroll to work in flex layout */}
           <div
-            className={`flex-1 flex flex-col min-w-0 ${
+            className={`flex-1 flex flex-col min-w-0 min-h-0 transition-opacity duration-200 ${
               !selectedUser ? "hidden md:flex" : "flex"
             }`}
           >
@@ -60,7 +83,7 @@ const HomePage = () => {
             ) : (
               <ChatContainer
                 onOpenSidebar={() => setMobileSidebarOpen(true)}
-                onBack={() => useChatStore.getState().setSelectedUser(null)}
+                onBack={handleBackToSidebar}
               />
             )}
           </div>

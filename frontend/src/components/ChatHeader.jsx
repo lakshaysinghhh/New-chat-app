@@ -23,26 +23,27 @@ const ChatHeader = ({ onOpenSidebar, onBack }) => {
     <div className="p-2 sm:p-2.5 border-b border-base-300 flex-shrink-0">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          {/* Back button - mobile only; Hamburger - desktop only */}
-          {(onBack || onOpenSidebar) && (
-            <>
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm btn-square flex-shrink-0 md:hidden"
-                onClick={handleBack}
-                aria-label="Go back to contacts"
-              >
-                <ArrowLeft className="size-5" />
-              </button>
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm btn-square flex-shrink-0 hidden md:flex"
-                onClick={onOpenSidebar}
-                aria-label="Open menu"
-              >
-                <Menu className="size-5" />
-              </button>
-            </>
+          {/* Back button - mobile only (closes chat, shows sidebar) */}
+          {onBack && (
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm btn-square flex-shrink-0 flex md:hidden"
+              onClick={handleBack}
+              aria-label="Go back to contacts"
+            >
+              <ArrowLeft className="size-5" />
+            </button>
+          )}
+          {/* Hamburger - desktop only */}
+          {onOpenSidebar && (
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm btn-square flex-shrink-0 hidden md:flex"
+              onClick={onOpenSidebar}
+              aria-label="Open menu"
+            >
+              <Menu className="size-5" />
+            </button>
           )}
           {/* Avatar */}
           <div className="avatar flex-shrink-0">

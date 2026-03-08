@@ -58,12 +58,12 @@ const ChatContainer = ({ onOpenSidebar, onBack }) => {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden h-full">
 
       <ChatHeader onOpenSidebar={onOpenSidebar} onBack={onBack} />
 
-      {/* Messages - scrollable, compact spacing; pb for fixed input on mobile */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 pb-24 sm:pb-3 space-y-1.5 sm:space-y-2 min-h-0 overscroll-contain">
+      {/* Messages - scrollable; flex-1 + min-h-0 + overflow-y-auto for proper scroll */}
+      <div className="chat-messages-scroll flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain p-2 sm:p-3 pb-24 sm:pb-3 space-y-1.5 sm:space-y-2">
         {messages.map((message) => (
           <div
             key={message._id}
