@@ -2,6 +2,16 @@ import daisyui from "daisyui";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  theme: {
+    extend: {
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+    },
+  },
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",

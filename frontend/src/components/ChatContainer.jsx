@@ -7,7 +7,7 @@ import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 
-const ChatContainer = () => {
+const ChatContainer = ({ onOpenSidebar, onBack }) => {
 
   const {
     messages,
@@ -49,8 +49,8 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className="flex-1 flex flex-col overflow-auto">
-        <ChatHeader />
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <ChatHeader onOpenSidebar={onOpenSidebar} onBack={onBack} />
         <MessageSkeleton />
         <MessageInput />
       </div>
@@ -58,26 +58,21 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto">
+    <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
 
-      <ChatHeader />
+      <ChatHeader onOpenSidebar={onOpenSidebar} onBack={onBack} />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-
+      {/* Messages - scrollable, compact spacing; pb for fixed input on mobile */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-3 pb-24 sm:pb-3 space-y-1.5 sm:space-y-2 min-h-0 overscroll-contain">
         {messages.map((message) => (
-
           <div
             key={message._id}
-            className={`chat ${
-              message.senderId === authUser._id
-                ? "chat-end"
-                : "chat-start"
+            className={`chat group ${
+              message.senderId === authUser._id ? "chat-end" : "chat-start"
             }`}
           >
-
             <div className="chat-image avatar">
-              <div className="size-10 rounded-full border">
-
+              <div className="size-7 sm:size-8 rounded-full border flex-shrink-0">
                 <img
                   src={
                     message.senderId === authUser._id
@@ -86,40 +81,26 @@ const ChatContainer = () => {
                   }
                   alt="profile pic"
                 />
-
               </div>
             </div>
-
-
-            <div className="chat-header mb-1">
-
-              <time className="text-xs opacity-50 ml-1">
+            <div className="chat-header">
+              <time className="text-[10px] sm:text-xs opacity-40 group-hover:opacity-70 transition-opacity ml-0.5">
                 {formatMessageTime(message.createdAt)}
               </time>
-
             </div>
-
-
             <div className="chat-bubble flex flex-col">
-
               {message.image && (
                 <img
                   src={message.image}
                   alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
+                  className="sm:max-w-[180px] rounded-md mb-1 max-w-[140px] sm:max-w-[180px]"
                 />
               )}
-
               {message.text && <p>{message.text}</p>}
-
             </div>
-
-            <div ref={messageEndRef}></div>
-
           </div>
-
         ))}
-
+        <div ref={messageEndRef} />
       </div>
 
       <MessageInput />

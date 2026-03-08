@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { Users, Trash2 } from "lucide-react";
+import { Users, Trash2, X } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ onSelectUser, onCloseMobile, isMobileOverlay }) => {
   const {
     getUsers,
     users = [],
@@ -30,19 +30,35 @@ const Sidebar = () => {
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
+  const handleSelectUser = (user) => {
+    (onSelectUser || setSelectedUser)(user);
+  };
+
   return (
-    <aside className="h-full w-full md:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
+    <aside className="h-full w-full bg-base-100 border-r border-base-300 flex flex-col transition-all duration-200">
 
-      {/* Header */}
-      <div className="border-b border-base-300 w-full p-4 space-y-3">
+      {/* Header - compact padding */}
+      <div className="border-b border-base-300 w-full p-2.5 sm:p-3 space-y-2 flex-shrink-0">
 
-        <div className="flex items-center gap-2">
-          <Users className="size-6" />
-          <span className="font-semibold text-lg">Contacts</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Users className="size-5 sm:size-5" />
+            <span className="font-semibold text-base sm:text-lg">Contacts</span>
+          </div>
+          {isMobileOverlay && (
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm btn-square md:hidden"
+              onClick={onCloseMobile}
+              aria-label="Close sidebar"
+            >
+              <X className="size-5" />
+            </button>
+          )}
         </div>
 
-        {/* Search / Start new chat */}
-        <div className="flex gap-2">
+        {/* Search / Start new chat - compact */}
+        <div className="flex gap-1.5">
           <input
             type="text"
             value={searchTerm}
@@ -90,8 +106,8 @@ const Sidebar = () => {
 
       </div>
 
-      {/* Users List */}
-      <div className="overflow-y-auto w-full py-2 space-y-1">
+      {/* Users List - compact */}
+      <div className="overflow-y-auto w-full py-1 space-y-0.5 flex-1 min-h-0">
         {/* Search results (start new chat) */}
         {searchResults.length > 0 && (
           <div className="px-3 pb-2">
@@ -100,7 +116,7 @@ const Sidebar = () => {
               <div
                 key={user._id}
                 onClick={() => {
-                  setSelectedUser(user);
+                  handleSelectUser(user);
                   setSearchResults([]);
                   setSearchTerm("");
                 }}
@@ -128,9 +144,9 @@ const Sidebar = () => {
         {filteredUsers.map((user) => (
           <div
             key={user._id}
-            onClick={() => setSelectedUser(user)}
+            onClick={() => handleSelectUser(user)}
             className={`
-              w-full p-3 flex items-center justify-between gap-3 cursor-pointer
+              w-full p-2 sm:p-2.5 flex items-center justify-between gap-2 cursor-pointer
               hover:bg-base-300 transition-colors
               ${
                 selectedUser?._id === user._id
@@ -145,7 +161,7 @@ const Sidebar = () => {
                 <img
                   src={user.profilePic || "/avatar.png"}
                   alt={user.fullName}
-                  className="size-12 object-cover rounded-full"
+                  className="size-10 sm:size-11 object-cover rounded-full flex-shrink-0"
                 />
 
                 {onlineUsers.includes(user._id) && (

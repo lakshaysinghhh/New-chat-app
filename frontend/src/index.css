@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 @plugin "daisyui";
+
+/* Compact chat bubbles - reduce DaisyUI defaults */
+@layer components {
+  .chat-bubble {
+    @apply !px-3 !py-1.5 !min-h-0;
+  }
+  .chat-bubble p {
+    @apply leading-relaxed text-[15px];
+  }
+}
+
+/* Fixed bottom input bar - safe area for notches/keyboard */
+.chat-input-wrapper {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
