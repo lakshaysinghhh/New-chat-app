@@ -67,3 +67,23 @@ server.listen(PORT, () => {
   connectDB();
 });
 
+
+
+
+// “CORS is a security feature that allows or blocks cross-origin API requests based on server configuration.”
+
+// ❓
+// “CORS is not about connecting frontend and backend, it’s about allowing or restricting access between different origins.”
+
+// ❓ CORS error kab aata hai?
+
+// 👉 Jab frontend aur backend alag origin pe ho aur backend allow na kare
+
+// ❓ credentials: true kyun use kiya?
+
+// 👉 Cookies / auth tokens send karne ke liye
+
+// ❓ CORS connection banata hai?
+
+// 👉 ❌ Nahi
+// 👉 ✔️ Sirf permission deta hai

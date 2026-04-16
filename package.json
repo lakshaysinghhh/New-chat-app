@@ -2,7 +2,7 @@
   "name": "chat-app-new",
   "version": "1.0.0",
   "description": "��#\u0000 \u0000C\u0000h\u0000a\u0000t\u0000-\u0000a\u0000p\u0000p\u0000\r\u0000 \u0000#\u0000 \u0000N\u0000e\u0000w\u0000-\u0000c\u0000h\u0000a\u0000t\u0000-\u0000a\u0000p\u0000p\u0000\r\u0000 \u0000",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "debug": "^4.4.3",
     "engine.io-client": "^6.6.4",
@@ -25,7 +25,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/lakshaysinghhh/New-chat-app/issues"
   },

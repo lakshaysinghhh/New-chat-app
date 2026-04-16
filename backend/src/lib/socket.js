@@ -37,3 +37,8 @@ io.on("connection", (socket) => {
 });
 
 export { io, app, server };
+
+// 👉 Socket.io = real-time communication library
+
+// ➡️ HTTP (Axios) = request → response (ek baar)
+// ➡️ Socket.io = continuous connection (live connection)

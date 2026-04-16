@@ -18,9 +18,9 @@ const HomePage = () => {
     setMobileSidebarOpen(false);
   };
 
-  const handleBack = () => {
-    setMobileSidebarOpen(true);
-  };
+  // const handleBack = () => {
+  //   setMobileSidebarOpen(true);
+  // };
 
   return (
     <div className="min-h-[100dvh] bg-base-200 pt-16">

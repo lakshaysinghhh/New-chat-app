@@ -179,3 +179,114 @@ export const checkAuth=(req,res)=>{
     });
   }
 }
+
+
+
+// “Controller handles incoming requests, interacts with models/database, and sends back the response.”
+
+// 1️⃣ Signup Controller
+
+// 👉 signup
+
+// Kaam: user register karna
+
+// Flow:
+// Data le raha hai → fullName, email, password
+// Validation:
+// empty check
+// password length check
+// Check:
+// user already exist hai ya nahi
+// Password hash:
+// bcrypt se password secure banaya
+// New user create kiya
+// DB me save kiya
+// JWT token generate kiya (login jaisa session)
+// Response bheja
+
+// 👉 Important line:
+
+// generateToken(newUser._id, res)
+
+// = user ko login jaisa authenticated bana diya
+
+// 2️⃣ Login Controller
+
+// 👉 login
+
+// Kaam: existing user ko login karna
+
+// Flow:
+// Email se user find kiya
+// Password compare kiya (bcrypt.compare)
+// Agar match:
+// JWT token generate
+// user data return
+
+// 👉 Key concept:
+
+// Password plain text me store nahi hota
+// Compare hashing se hota hai
+// 3️⃣ Logout Controller
+
+// 👉 logout
+
+// Kaam: user ko logout karna
+
+// Logic:
+// res.cookie("jwt", "", { maxAge: 0 })
+
+// 👉 Matlab:
+
+// cookie delete → user logout
+// 4️⃣ Delete Account
+
+// 👉 deleteAccount
+
+// Kaam: user ka pura account delete karna
+
+// Flow:
+// userId liya (req.user)
+// Us user ke saare messages delete
+// User delete
+// Cookie clear
+// Response send
+
+// 👉 🔥 Good practice: pehle related data delete kiya (messages)
+
+// 5️⃣ Update Profile
+
+// 👉 updateProfile
+
+// Kaam: profile pic update karna
+
+// Flow:
+// Image li (profilePic)
+// Cloudinary pe upload kiya
+// URL mila (secure_url)
+// DB me update kiya
+
+// 👉 🔥 Important:
+
+// cloudinary.uploader.upload(profilePic)
+// 6️⃣ Check Auth
+
+// 👉 checkAuth
+
+// Kaam: check karna user logged in hai ya nahi
+
+// Logic:
+// Agar req.user hai → authenticated
+// Response me user return
+// 🧩 req.user kaha se aaya?
+
+// 👉 Ye middleware se aata hai (JWT verify karke)
+
+// Example:
+
+// Route → Auth Middleware → Controller
+
+// Middleware:
+
+// token verify karta hai
+// user DB se nikal ke req.user me daal deta hai

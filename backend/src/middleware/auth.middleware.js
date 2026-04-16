@@ -44,3 +44,27 @@ export const protectRoute = async (req, res, next) => {
     });
   }
 };
+
+// Token lena (cookies se)
+// const token = req.cookies.jwt;
+
+// ➡️ Jab user login karta hai → server usko JWT cookie deta hai
+// ➡️ Har request me wo cookie automatically aati hai
+
+
+// 👉 Middleware is a function that runs between the request and response cycle.
+// It can:
+
+// modify request (req)
+// modify response (res)
+// or stop the request
+
+// 👉 Authentication middleware verifies whether a user is authorized to access a protected route.
+// app.get("/api/messages", protectRoute, getMessages);
+
+
+// ➡️ Flow:
+
+// protectRoute chalega
+// Agar user valid → getMessages
+// Agar invalid → ❌ error

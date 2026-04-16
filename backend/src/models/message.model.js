@@ -35,3 +35,6 @@ const messageSchema = new mongoose.Schema(
 const Message = mongoose.model("Message", messageSchema);
 
 export default Message;
+
+
+// 👉 Ye model chat messages ka complete structure define karta hai (text + image + sender/receiver + delete logic)
